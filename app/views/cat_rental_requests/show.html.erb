@@ -1,0 +1,29 @@
+<h1>Single Request</h1>
+
+<p>
+  <a href="<%= cat_url(@cat.id) %>">
+    <%= @cat.name %>
+  </a>
+</p>
+
+<table border="2">
+
+  <tr>
+    <th>Gender</th>
+    <th>Color</th>
+    <th>B-day</th>
+    <th>Description</th>
+    <th>Start Date</th>
+    <th>Return Date</th>
+  </tr>
+
+  <tr>
+    <td><%= @cat.sex %></td>
+    <td><%= @cat.color.capitalize %></td>
+    <td><%= @cat.birth_date %></td>
+    <td><%= @cat.description %></td>
+    <td><%= @cat_rental_request.start_date %></td>
+    <td><%= @cat_rental_request.end_date %></td>
+  </tr>
+</table>
+<a href="<%= cat_rental_requests_url %>">Back to Requests</a>

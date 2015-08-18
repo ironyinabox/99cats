@@ -1,0 +1,24 @@
+<%= @cat_rental_request.errors.full_messages.join %>
+<% action_url = cat_rental_request.persisted? ? cat_rental_request_url(cat_rental_request) : cat_rental_requests_url%>
+<% form_method = cat_rental_request.persisted? ? "PATCH" : "POST"%>
+<% submit_text = cat_rental_request.persisted? ? "Update cat_rental_request!" : "Create cat_rental_request!"%>
+
+<form action="<%= action_url %>" method="post">
+  <input type="hidden" name="_method" value="<%=form_method%>">
+
+  <select
+    id="cat_id"
+    name="cat_rental_request[cat_id]">
+    <% @cats.each do |cat|%>
+      <option value="<%= cat.id %>" <%= 'selected' if cat == @cats.first %> ><%= cat.name %></option>
+    <% end %>
+  </select>
+
+  <label for="start_date">start_date</label>
+  <input id="start_date" type="date" name="cat_rental_request[start_date]" value="<%= @cat_rental_request.start_date %>" >
+
+  <label for="end_date">end_date</label>
+  <input id="end_date" type="date" name="cat_rental_request[end_date]" value="<%= @cat_rental_request.end_date %>" >
+
+  <button><%=submit_text%></button>
+</form>

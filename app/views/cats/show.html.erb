@@ -13,10 +13,23 @@
     <th>Description</th>
   </tr>
   <tr>
-    <th><%= @cat.sex %></th>
-    <th><%= @cat.color.capitalize %></th>
-    <th><%= @cat.birth_date %></th>
-    <th><%= @cat.description %></th>
+    <td><%= @cat.sex %></td>
+    <td><%= @cat.color.capitalize %></td>
+    <td><%= @cat.birth_date %></td>
+    <td><%= @cat.description %></td>
   </tr>
+</table>
+
+<ul>
+  <% @requests.each do |request| %>
+    <li>
+      <a href="<%= cat_rental_request_url(request.id) %>">
+        Request id:<%= request.id %> </br>
+        Start <%= request.start_date %> </br>
+        End <%= request.end_date %>
+      </a>
+    </li>
+  <% end %>
+</ul>
 
 <a href="<%= cats_url %>">Back to Cats</a>

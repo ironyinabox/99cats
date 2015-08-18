@@ -3,6 +3,8 @@ class Cat < ActiveRecord::Base
   validates :sex, inclusion: %w(M F)
   validates :color, inclusion: %w(orange black white gray combo)
 
+  has_many :cat_rental_requests, dependent: :destroy
+
   def age
     # (Date.today.year - birth_date.year)
     now = Time.now.utc.to_date
