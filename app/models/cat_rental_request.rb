@@ -1,7 +1,7 @@
 class CatRentalRequest < ActiveRecord::Base
   validates :cat_id, :start_date, :end_date, presence: true
   validates :status, inclusion: %w(PENDING APPROVED DENIED)
-
+  validate :approve?, on: :update
   belongs_to :cat
 
   after_initialize do |request|
@@ -9,6 +9,17 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def approve!
+    ActiveRecord::Base.transaction do
+      overlapping_pending_requests.each do |request|
+        request.deny!
+      end
+      update!(status: "APPROVED")
+      # raise Exception !overlapping_approved_requests.empty?
+    end
+  end
+
+  def deny!
+    update!(status: "DENIED")
   end
 
 
@@ -22,6 +33,27 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def overlapping_approved_requests
-    overlapping_requests("WHERE status='APPROVED'")
+    overlapping_requests.where("status='APPROVED'")
   end
+
+  def overlapping_pending_requests
+    overlapping_requests.where("status='PENDING'")
+  end
+
+  def approve?
+    overlapping_approved_requests.empty?
+  end
+
+  def pending?
+    status == "PENDING"
+  end
+
+  def approved?
+    status == "APPROVED"
+  end
+  def denied?
+    status == "DENIED"
+  end
+
+
 end

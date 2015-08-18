@@ -27,7 +27,15 @@
         Request id:<%= request.id %> </br>
         Start <%= request.start_date %> </br>
         End <%= request.end_date %>
-      </a>
+      </a><br>
+      <% if request.pending? %>
+        <%= button_to("Approve", approve_cat_rental_request_url(request.id)) %>
+      <% elsif request.approved? %>
+        Approved
+      <% else %>
+        Denied
+      <% end %>
+
     </li>
   <% end %>
 </ul>
