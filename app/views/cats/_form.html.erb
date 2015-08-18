@@ -1,0 +1,46 @@
+<%= @cat.errors.full_messages.join %>
+<% action_url = cat.persisted? ? cat_url(cat) : cats_url%>
+<% form_method = cat.persisted? ? "PATCH" : "POST"%>
+<% submit_text = cat.persisted? ? "Update Cat!" : "Create Cat!"%>
+
+<form action="<%= action_url %>" method="post">
+  <input type="hidden" name="_method" value="<%=form_method%>">
+  <label for="name">Name</label>
+  <input
+    id="name"
+    type="text"
+    name="cat[name]"
+    value="<%= @cat.name %>">
+
+  <label for="sex">Sex</label>
+  <% sexes = %w(M F) %>
+  <% sexes.each do |sex| %>
+  <input id="sex" type="radio" name="cat[sex]"
+    value="<%= sex.capitalize %>"
+    <%= 'checked' if sex == @cat.sex %> > <%= sex %>
+  <% end %>
+  <label for="color">Color</label>
+
+  <select
+    id="color"
+    name="cat[color]">
+    <% colors = %w(- orange white gray black combo)%>
+    <% colors.each do |color|%>
+      <option value="<%= color %>" <%= 'selected' if color == @cat.color %> ><%= color.capitalize %></option>
+    <% end %>
+  </select>
+
+  <label for="birth_date">birth_date</label>
+  <input id="birth_date" type="date" name="cat[birth_date]" value="<%= @cat.birth_date %>" >
+
+  <label for="description">Description</label>
+  <textarea
+    id="description"
+    name="cat[description]">
+    <%= @cat.description %>
+  </textarea>
+
+
+
+  <button><%=submit_text%></button>
+</form>

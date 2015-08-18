@@ -1,0 +1,22 @@
+<h1>Single Cat</h1>
+
+<p>
+  <%= @cat.name %>
+</p>
+
+<table border="2">
+
+  <tr>
+    <th>Gender</th>
+    <th>Color</th>
+    <th>B-day</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <th><%= @cat.sex %></th>
+    <th><%= @cat.color.capitalize %></th>
+    <th><%= @cat.birth_date %></th>
+    <th><%= @cat.description %></th>
+  </tr>
+
+<a href="<%= cats_url %>">Back to Cats</a>
