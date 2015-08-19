@@ -1,0 +1,13 @@
+<ul>
+  <% @user.errors.full_messages.each do |err_msg| %>
+    <li><%= err_msg %></li>
+  <% end %>
+</ul>
+
+<form action="<%= user_url %>" method="POST">
+  <label for="user_username">Username</label>
+  <input id="user_username" name="user[user_name]" type="text" value="<%= @user.user_name %>">
+  <label for="user_password">Password</label>
+  <input id="user_password" name="user[password]" type="password">
+  <input type="submit" value="Create User!">
+</form>
