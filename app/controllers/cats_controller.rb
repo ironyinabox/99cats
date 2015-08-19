@@ -8,7 +8,8 @@ class CatsController < ApplicationController
 
   def show
     @cat = Cat.find(params[:id])
-    @requests = @cat.cat_rental_requests.sort_by {|request| request.start_date}
+    @requests = @cat.cat_rental_requests.order("start_date").includes(:user)
+    # @requests = @cat.cat_rental_requests.order("start_date")
     render :show
   end
 
@@ -17,8 +18,8 @@ class CatsController < ApplicationController
   end
 
   def create
-    @cat = Cat.new(cat_params)
-    @cat.user_id = current_user.id
+    @cat = current_user.cats.new(cat_params)
+    # @cat.user_id = current_user.id
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -32,8 +33,11 @@ class CatsController < ApplicationController
 
   def update
     @cat = Cat.find(params[:id])
-    @cat.update(cat_params)
-    redirect_to cat_url(@cat)
+    if @cat.update(cat_params)
+      redirect_to cat_url(@cat)
+    else
+      render :edit
+    end
   end
 
   private

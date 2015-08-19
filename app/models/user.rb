@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
   validates :user_name, presence: true
   validates :user_name, uniqueness: true
+  validates :password_digest, presence: true
   has_many :cats, dependent: :destroy
   has_many :cat_rental_requests, dependent: :destroy
 
   attr_reader :password
+
   def self.find_by_credentials(user_name, password)
     user = User.find_by(user_name: user_name)
     return nil if user.nil?

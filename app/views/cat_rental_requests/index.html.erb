@@ -1,10 +1,10 @@
 <h1>Requests</h1>
 
 <ul>
-  <% (0...@cat_rental_requests.length).each do |i| %>
+  <% @cat_rental_requests.each do |request| %>
     <li>
-      <a href="<%= cat_rental_request_url(@cat_rental_requests[i].id) %>">
-        <%= @cats[i].name %>
+      <a href="<%= cat_rental_request_url(request) %>">
+        <%= request.cat.name %>
       </a>
     </li>
   <% end %>
