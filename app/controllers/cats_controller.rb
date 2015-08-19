@@ -1,4 +1,6 @@
 class CatsController < ApplicationController
+  before_action :redirect_if_unauthorized, only: [:edit, :update]
+
   def index
     @cats = Cat.all
     render :index
@@ -16,6 +18,7 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -36,5 +39,13 @@ class CatsController < ApplicationController
   private
   def cat_params
     params.require(:cat).permit(:name, :birth_date, :sex, :description, :color)
+  end
+
+  def current_user_is_owner?
+    Cat.find(params[:id]).user_id == current_user.id
+  end
+
+  def redirect_if_unauthorized
+    redirect_to cats_url unless current_user_is_owner?
   end
 end

@@ -24,14 +24,16 @@
   <% @requests.each do |request| %>
     <li>
       <a href="<%= cat_rental_request_url(request.id) %>">
-        Request id:<%= request.id %> </br>
+        Requester Name: <%= request.user.user_name %></br>
         Start <%= request.start_date %> </br>
         End <%= request.end_date %>
       </a><br>
-      <% if request.pending? %>
+      <% if request.pending? && @cat.user_id == current_user.id %>
         <%= button_to("Approve", approve_cat_rental_request_url(request.id)) %>
       <% elsif request.approved? %>
         Approved
+      <% elsif request.pending? %>
+        Pending
       <% else %>
         Denied
       <% end %>

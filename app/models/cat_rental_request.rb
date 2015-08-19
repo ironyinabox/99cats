@@ -4,6 +4,8 @@ class CatRentalRequest < ActiveRecord::Base
   # validate :approve?, on: :update
   validate :has_no_overlapping_approved_requests
   belongs_to :cat
+  belongs_to :user
+  validates :user, presence: true
 
   after_initialize do |request|
     request.status ||= "PENDING"
@@ -37,7 +39,7 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def has_no_overlapping_approved_requests
-    if overlapping_approved_requests.empty?
+    if !overlapping_approved_requests.empty?
       errors[:id] << "has overlapping approved requests."
     end
   end

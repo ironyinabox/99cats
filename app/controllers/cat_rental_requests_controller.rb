@@ -1,4 +1,5 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :redirect_if_unauthorized, only: [:edit, :update]
   def index
     @cat_rental_requests = CatRentalRequest.all
     @cats = @cat_rental_requests.map { |request| Cat.find(request.cat_id) }
@@ -20,10 +21,12 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @cat_rental_request = CatRentalRequest.new(cat_rental_request_params)
-    if @cat_rental_request.save
+    @cat_rental_request.user_id = current_user.id
+    if @cat_rental_request.save!
       redirect_to cat_rental_request_url(@cat_rental_request)
     else
-      render :new
+      # render :new
+      redirect_to new_cat_rental_request_url
     end
   end
 
@@ -46,5 +49,13 @@ class CatRentalRequestsController < ApplicationController
   private
   def cat_rental_request_params
     params.require(:cat_rental_request).permit(:cat_id, :start_date, :end_date)
+  end
+
+  def authorized?
+    CatRentalRequest.find(params[:id]).cat.user_id == current_user.id
+  end
+
+  def redirect_if_unauthorized
+    redirect_to cats_url unless authorized?
   end
 end

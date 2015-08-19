@@ -23,7 +23,14 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def not_current_user
+  end
+
   def redirect_if_logged_in
     redirect_to cats_url if logged_in?
+  end
+
+  def redirect_if_unauthorized
+    redirect_to cats_url if not_current_user
   end
 end

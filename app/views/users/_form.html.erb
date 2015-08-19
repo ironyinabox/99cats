@@ -5,6 +5,7 @@
 </ul>
 
 <form action="<%= user_url %>" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <label for="user_username">Username</label>
   <input id="user_username" name="user[user_name]" type="text" value="<%= @user.user_name %>">
   <label for="user_password">Password</label>
